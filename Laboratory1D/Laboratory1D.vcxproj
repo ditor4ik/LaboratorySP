@@ -21,10 +21,9 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{5ff439c2-30da-4862-bae1-95bcefb44fb9}</ProjectGuid>
-    <RootNamespace>Laboratory1B</RootNamespace>
+    <ProjectGuid>{f246b304-1be5-467c-862c-e1602cc0fd13}</ProjectGuid>
+    <RootNamespace>Laboratory1D</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>Laboratory1B</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -141,18 +140,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
-    <ClInclude Include="Laboratory2.h" />
+    <ClInclude Include="Laboratory1D.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Laboratory2.cpp" />
+    <ClCompile Include="Laboratory1D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Laboratory2.rc" />
+    <ResourceCompile Include="Laboratory1D.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Laboratory2.ico" />
+    <Image Include="Laboratory1D.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -61,34 +61,29 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	PAINTSTRUCT ps;
 	HDC hdc;
-	static ObjAnim arr[4];
-	//static ObjAnim ship;
-	//static ObjAnim Sea;
+	static ObjAnim ship;
+	static ObjAnim Sea;
 	static int caption, menu, border;
 	static int t = 0;
 	switch (message)
 	{
 	case WM_CREATE:
-		SetTimer(hWnd, 10, 100, NULL);
+		SetTimer(hWnd, 10, 33, NULL);
 		caption = GetSystemMetrics(SM_CYCAPTION);
 		menu = GetSystemMetrics(SM_CYMENU);
 		border = GetSystemMetrics(SM_CXFIXEDFRAME);
 		hdc = GetDC(hWnd);
-		arr[0] = ObjAnim(_T("1.bmp"), hdc);
-		arr[1] = ObjAnim(_T("2.bmp"), hdc);
-		arr[2] = ObjAnim(_T("3.bmp"), hdc);
-		arr[3] = ObjAnim(_T("4.bmp"), hdc);
-		//ship = ObjAnim(_T("ship.bmp"), hdc);
-		//Sea = ObjAnim(_T("Sea.bmp"), hdc);
+		ship = ObjAnim(_T("ship.bmp"), hdc);
+		Sea = ObjAnim(_T("Sea.bmp"), hdc);
 		ReleaseDC(hWnd, hdc);
 		break;
 	case WM_TIMER:
 		t++;
-		//if (t > arr[0].bm.bmWidth) t = -1* arr[0].bm.bmWidth;
+		if (t > Sea.bm.bmWidth) t = -1* ship.bm.bmWidth;
 		InvalidateRect(hWnd, NULL, TRUE);
 		break;
 	case WM_SIZE:
-		MoveWindow(hWnd, 100, 50, arr[0].bm.bmWidth + 2 * border, arr[0].bm.bmHeight*2 + caption
+		MoveWindow(hWnd, 100, 50, Sea.bm.bmWidth + 2 * border, Sea.bm.bmHeight*2 + caption
 			+ menu + border, TRUE);
 		break;
 	case WM_COMMAND:
@@ -100,9 +95,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
-		arr[t % 4].Draw(0, 0, hdc);
-		//Sea.Draw(0, Sea.bm.bmHeight + caption + menu + border, hdc);
-		//ship.Draw(t, 100, hdc);
+		ship.Draw(t, 10, hdc);
+		Sea.Draw(0, Sea.bm.bmHeight + caption + menu + border, hdc);
 		EndPaint(hWnd, &ps);
 		break;
 	case WM_DESTROY:PostQuitMessage(0); break;
