@@ -5,6 +5,7 @@
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 #define ID_COMBO1 100
 #define ID_COMBO2 102
+#define GET_MESS 103
 LPSTR ReturnDate(int day, int month, int year);
 
 char szAppName[] = "PopPad1";
@@ -50,7 +51,7 @@ LPCSTR ArrText[12] = {
 	"Строка 1", "Строка 2", "Строка 3", "Строка 4","Строка 5","Строка 6",
 	"Строка 7","Строка 8","Строка 9","Строка 10","Строка 11","Строка 12"
 };
-LPCSTR ArrText2[12] = {"","", "", "", "", "", "", "", "", "", "", ""};
+LPCSTR Buff[11];
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	int i;
 	int date, month, year;
@@ -72,7 +73,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		hComboBox2 = CreateWindow("Combobox", NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | CBS_DROPDOWNLIST,
 			150, 80, 100, 200, hWnd, (HMENU)ID_COMBO2, hInst, NULL);
 
-		hComboBox1 = CreateWindow("Combobox", NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | CBS_DROPDOWNLIST | CS_DBLCLKS,
+		hComboBox1 = CreateWindow("Combobox", NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL ,
 			30, 80, 100, 200, hWnd, (HMENU)ID_COMBO1, hInst, NULL);
 
 		for (i = 0; i < 12; i++)
@@ -81,24 +82,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		}
 
 		SendMessage(hComboBox1, CB_SETCURSEL, (WPARAM)5, 0L);
-		/*
-		for (i = 1; i < 32; i++)
-		{
-			_itoa(i, day, 10);
-
-			SendMessage(hComboBox, CB_ADDSTRING, 1, (LPARAM)day);
-		}
-		
-		SendMessage(hComboBox, CB_SETCURSEL, 0, 0L);
-
-		
-
-		SendMessage(hComboYear, CB_ADDSTRING, 1, (LPARAM)"2018");
-		SendMessage(hComboYear, CB_ADDSTRING, 1, (LPARAM)"2019");
-		SendMessage(hComboYear, CB_ADDSTRING, 1, (LPARAM)"2020");
-
-		SendMessage(hComboYear, CB_SETCURSEL, 0, 0L);
-		*/
 		memdc = CreateCompatibleDC(hdc1);
 		hbit = CreateCompatibleBitmap(hdc1, maxX, maxY);
 		SelectObject(memdc, hbit);
@@ -110,26 +93,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	case WM_SIZE:
 		InvalidateRect(hWnd, NULL, 1);
 		break;
-	case WM_LBUTTONDBLCLK:
-		MessageBox(hWnd, "text", "text", NULL);
-		break;
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
-			/*
-		case ID_EXIT:
-			DestroyWindow(hWnd);
-			break;
-		case ID_TAKE:
-			date = SendMessage(hComboBox, CB_GETCURSEL, 0, 0L);
-			month = SendMessage(hListBox, LB_GETCURSEL, 0, 0L);
-			year = SendMessage(hComboYear, CB_GETCURSEL, 0, 0L);
-			SendMessage(hComboYear, CB_GETLBTEXT, (WPARAM)year, (LPARAM)Buf1);
-			lstrcpy(Buf, ReturnDate(date, month, atoi(Buf1)));
-			MessageBox(NULL, Buf, "", MB_OK);
-			break;*/
+		case ID_COMBO1:
+			if (HIWORD(wParam) == CBN_DBLCLK)
+			{
+				i = SendMessage(hComboBox1, CB_GETCURSEL, 0, 0L);
+				SendMessage(hComboBox2, CB_ADDSTRING, 1, (LPARAM)ArrText[i]);
+				i = SendMessage(hComboBox2, CB_GETCOUNT, 0, 0L);
+				SendMessage(hComboBox2, CB_SETCURSEL, i-1, 0L);
+				return 0;
+			}
+			return 0;
 		default:
-			break;
+			return 0;
 		}
 		return 0;
 
@@ -140,34 +118,4 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 	}
 	return 0;
-}
-LPSTR ReturnDate(int day, int month, int year) {
-	char myDay[80] = "", myYear[8] = "";
-
-	_itoa(day + 1, myDay, 10);
-
-	lstrcat(myDay, "-e");
-
-	switch (month + 1) {
-	case 1: lstrcat(myDay, " Января "); break;
-	case 2: lstrcat(myDay, " февраля "); break;
-	case 3: lstrcat(myDay, " Марта "); break;
-	case 4: lstrcat(myDay, " Апреля "); break;
-	case 5: lstrcat(myDay, " Мая "); break;
-	case 6: lstrcat(myDay, " Июня "); break;
-	case 7: lstrcat(myDay, " Июля "); break;
-	case 8: lstrcat(myDay, " Августа "); break;
-	case 9: lstrcat(myDay, " Сентября "); break;
-	case 10: lstrcat(myDay, " Октября "); break;
-	case 11: lstrcat(myDay, " Ноября "); break;
-	case 12: lstrcat(myDay, " Декабря "); break;
-	default: lstrcat(myDay, " Июня "); break;
-	}
-
-	_itoa(year, myYear, 10);
-	lstrcat(myYear, " r. ");
-
-	lstrcat(myDay, myYear);
-
-	return myDay;
 }

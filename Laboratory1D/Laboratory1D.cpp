@@ -2,9 +2,8 @@
 #include<Windows.h>
 #include<tchar.h>
 #include <cmath>
-const int WIDTH = 200;
-const int HEIGHT = 1000;
-const double K = 4.0;
+const int WIDTH = 400;
+const int HEIGHT = 10000;
 
 int function(double x) {
 	return sin(x) / cos(x);
@@ -72,8 +71,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam,
 
 	switch (uMsg) {
 	case WM_CREATE:
-		hpen1 = CreatePen(PS_SOLID, 4, RGB(0, 0, 255));
-		hpen2 = CreatePen(PS_SOLID, 4, RGB(255, 0, 255));
+		hpen1 = CreatePen(PS_SOLID, 1, RGB(0, 0, 255));
+		hpen2 = CreatePen(PS_SOLID, 1, RGB(255, 0, 255));
 		break;
 	case WM_SIZE:
 		sx = LOWORD(lParam);
@@ -87,7 +86,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam,
 		SetViewportExtEx(hDC, sx / 2, sy / 2, NULL);
 		SetViewportOrgEx(hDC, sx / 2, sy / 2, NULL);
 		SelectObject(hDC, hpen1);
-		MoveToEx(hDC, -WIDTH, 0, NULL);
+		MoveToEx(hDC, WIDTH, 0, NULL);
 		LineTo(hDC, WIDTH, 0);
 		MoveToEx(hDC, 0, HEIGHT, NULL);
 		LineTo(hDC, 0, -HEIGHT);
